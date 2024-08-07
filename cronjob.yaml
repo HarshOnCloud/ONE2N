@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: metrics-collector
+  namespace: node-metric-collector
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: metrics-collector-sa
+          containers:
+          - name: metrics-collector
+            image: harshvardhan1506/nodemetric:latest
+            volumeMounts:
+            - name: metrics-volume
+              mountPath: /mnt/data
+          restartPolicy: OnFailure
+          volumes:
+          - name: metrics-volume
+            persistentVolumeClaim:
+              claimName: metrics-pvc

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metrics-collector-sa-secret
+  namespace: node-metric-collector
+  annotations:
+    kubernetes.io/service-account.name: metrics-collector-sa
+type: kubernetes.io/service-account-token
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: metrics-collector-sa
+  namespace: node-metric-collector
+secrets:
+  - name: metrics-collector-sa-secret
